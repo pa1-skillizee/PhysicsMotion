@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import ChapterFooter from './ChapterFooter';
-import { RotateCw, MoveRight } from 'lucide-react';
+import { RotateCw, MoveRight, BookOpen, CheckCircle, Zap } from 'lucide-react';
 import PolygonToCircleActivity from './PolygonToCircleActivity';
 import StoneThreadActivity from './StoneThreadActivity';
 
@@ -70,6 +70,31 @@ export default function ChapterThreeTwo() {
                     <PolygonToCircleActivity />
                 </div>
 
+                {/* Defining Uniform Circular Motion */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    className="bg-white/90 backdrop-blur-xl p-10 lg:p-14 rounded-[3rem] shadow-xl border-4 border-slate-100 flex flex-col md:flex-row gap-12 items-center text-center md:text-left"
+                >
+                    <div className="flex-1">
+                        <span className="bg-sky-100 text-sky-700 px-4 py-1.5 rounded-full font-black text-xs tracking-widest uppercase mb-4 inline-block">Definition</span>
+                        <h3 className="text-3xl font-black text-slate-800 mb-6">Defining Uniform Circular Motion</h3>
+                        <p className="text-xl text-slate-600 leading-relaxed font-medium">
+                            When an object moves in a circular path with <strong>constant speed</strong>, its motion is called <strong className="text-sky-600">Uniform Circular Motion</strong>. Even though the speed is constant, it is considered an <strong className="text-rose-600">accelerated motion</strong> because the direction of velocity is constantly changing.
+                        </p>
+                    </div>
+                    <div className="w-full md:w-1/3 flex justify-center">
+                        <div className="w-40 h-40 bg-slate-50 rounded-full border-8 border-slate-100 shadow-inner flex items-center justify-center relative">
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                                className="absolute inset-2 border-4 border-dashed border-sky-400 rounded-full"
+                            />
+                            <Zap className="text-amber-500 w-12 h-12" />
+                        </div>
+                    </div>
+                </motion.div>
+
                 {/* The Formula Card */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
@@ -118,6 +143,54 @@ export default function ChapterThreeTwo() {
                             <li>• A cyclist moving on a circular track at a constant speed.</li>
                             <li>• An athlete throwing a hammer or discus after rotating their body to build speed.</li>
                         </ul>
+                    </div>
+                </div>
+
+                {/* What have you learnt Summary Section */}
+                <div className="bg-slate-900 text-white p-10 lg:p-14 rounded-[3rem] shadow-2xl relative overflow-hidden border-4 border-slate-800">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/40 via-transparent to-transparent"></div>
+
+                    <div className="flex items-center gap-4 mb-8 relative z-10">
+                        <div className="p-3 bg-sky-500/20 rounded-2xl text-sky-400">
+                            <BookOpen size={32} />
+                        </div>
+                        <div>
+                            <h3 className="text-3xl font-black text-white">What Have You Learnt?</h3>
+                            <p className="text-slate-400 font-medium mt-1">
+                                Motion is a change of position; it can be described in terms of the distance moved or the displacement.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                        <div className="bg-slate-800/80 p-6 rounded-3xl border border-slate-700 flex gap-4">
+                            <CheckCircle className="text-emerald-400 shrink-0 mt-1" />
+                            <p className="text-slate-300 font-medium">The motion of an object could be uniform or non-uniform depending on whether its velocity is constant or changing.</p>
+                        </div>
+                        <div className="bg-slate-800/80 p-6 rounded-3xl border border-slate-700 flex gap-4">
+                            <CheckCircle className="text-emerald-400 shrink-0 mt-1" />
+                            <p className="text-slate-300 font-medium">The speed of an object is the distance covered per unit time, and velocity is the displacement per unit time.</p>
+                        </div>
+                        <div className="bg-slate-800/80 p-6 rounded-3xl border border-slate-700 flex gap-4">
+                            <CheckCircle className="text-emerald-400 shrink-0 mt-1" />
+                            <p className="text-slate-300 font-medium">The acceleration of an object is the change in velocity per unit time. Uniform and non-uniform motions can be shown through graphs.</p>
+                        </div>
+                        <div className="bg-slate-800/80 p-6 rounded-3xl border border-slate-700 flex gap-4">
+                            <CheckCircle className="text-emerald-400 shrink-0 mt-1" />
+                            <p className="text-slate-300 font-medium">If an object moves in a circular path with uniform speed, its motion is called uniform circular motion.</p>
+                        </div>
+                    </div>
+
+                    <div className="mt-8 bg-indigo-900/40 p-8 rounded-3xl border border-indigo-500/30 relative z-10">
+                        <h4 className="text-xl font-black text-indigo-300 mb-4">The Equations of Motion</h4>
+                        <p className="text-indigo-100 font-medium mb-6">
+                            The motion of an object moving at uniform acceleration can be described with the help of the following equations, where <strong className="text-sky-300">u</strong> is initial velocity, <strong className="text-rose-300">a</strong> is uniform acceleration for time <strong className="text-amber-300">t</strong>, <strong className="text-emerald-300">v</strong> is final velocity and <strong className="text-purple-300">s</strong> is distance travelled:
+                        </p>
+                        <div className="flex flex-wrap gap-4 justify-center">
+                            <span className="bg-white/10 px-6 py-3 rounded-2xl font-black text-2xl font-serif text-white shadow-inner backdrop-blur-sm border border-white/20">v = u + at</span>
+                            <span className="bg-white/10 px-6 py-3 rounded-2xl font-black text-2xl font-serif text-white shadow-inner backdrop-blur-sm border border-white/20">s = ut + ½at²</span>
+                            <span className="bg-white/10 px-6 py-3 rounded-2xl font-black text-2xl font-serif text-white shadow-inner backdrop-blur-sm border border-white/20">2as = v² - u²</span>
+                        </div>
                     </div>
                 </div>
 
