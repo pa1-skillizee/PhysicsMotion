@@ -45,7 +45,7 @@ Format your response EXACTLY as a JSON object with this shape and absolutely no 
                     { role: "system", content: systemPrompt },
                     { role: "user", content: `Scenario to analyze: "${scenarioText}"` }
                 ],
-                model: "llama3-8b-8192", // Using an extremely fast standard model
+                model: "llama-3.1-8b-instant", // Using a fast, supported model
                 temperature: 0.5,
                 max_tokens: 300,
                 response_format: { type: "json_object" }
@@ -63,7 +63,7 @@ Format your response EXACTLY as a JSON object with this shape and absolutely no 
             console.error(error);
             setResultData({
                 type: 'System Error',
-                explanation: 'Uh oh! My connection to the AI supercomputer dropped. Make sure the API key is valid!'
+                explanation: 'Uh oh! My connection to the AI supercomputer dropped. Please try again or check your internet!'
             });
         } finally {
             setIsAnalyzing(false);
