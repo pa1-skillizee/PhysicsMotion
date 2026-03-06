@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import ChapterFooter from './ChapterFooter';
 import InteractiveGraphSimulator from './InteractiveGraphSimulator';
-import { LineChart } from 'lucide-react';
+import GraphDataPlotterActivity from './GraphDataPlotterActivity';
+import GraphTrainJourneyActivity from './GraphTrainJourneyActivity';
+import { LineChart, Play, CheckCircle } from 'lucide-react';
 
 function GraphHeaderAnimation() {
     return (
@@ -67,9 +69,20 @@ export default function ChapterThreeOne() {
                         <LineChart className="text-violet-400 opacity-50" size={48} />
                     </div>
                     <h3 className="text-3xl font-black text-slate-800 mb-4">Distance-Time Graphs</h3>
-                    <p className="text-xl text-slate-600 leading-relaxed font-medium max-w-4xl">
+                    <p className="text-xl text-slate-600 leading-relaxed font-medium max-w-4xl mb-8">
                         The change in position of an object with time can be represented on a distance-time graph. Time is taken along the <strong className="text-violet-600 bg-violet-50 px-2 rounded-md">x-axis</strong> and distance along the <strong className="text-pink-600 bg-pink-50 px-2 rounded-md">y-axis</strong>.
                     </p>
+
+                    <div className="w-full flex justify-center mb-8">
+                        <iframe
+                            className="w-full max-w-[800px] aspect-video rounded-3xl shadow-xl border-4 border-slate-100"
+                            src="https://www.youtube.com/embed/y5nvxek9WhI?start=59&end=2491"
+                            title="Motion Graphs Video"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                        ></iframe>
+                    </div>
                 </motion.div>
 
                 {/* Graph Simulator Section */}
@@ -151,6 +164,37 @@ export default function ChapterThreeOne() {
                     </div>
                 </motion.div>
 
+                {/* Train Activity Section */}
+                <div className="mb-24">
+                    <div className="bg-white p-10 rounded-t-[3rem] border-4 border-b-0 border-slate-100 relative">
+                        <h4 className="text-2xl font-black text-slate-800 mb-4 flex items-center gap-3">
+                            <Play className="text-sky-500 fill-current w-6 h-6" /> Activity: The Train Stations
+                        </h4>
+                        <p className="text-lg text-slate-600 font-medium max-w-4xl">
+                            The times of arrival and departure of a train at three stations A, B and C and the distance of stations B and C from station A are given in Table. Plot and interpret the distance-time graph for the train assuming that its motion between any two stations is uniform.
+                        </p>
+                        <div className="mt-6 flex flex-wrap gap-4 text-sm font-bold text-slate-500 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <div>Station A: <span className="text-amber-600">0km</span></div>
+                            <div>Station B: <span className="text-amber-600">120km</span></div>
+                            <div>Station C: <span className="text-amber-600">180km</span></div>
+                        </div>
+                    </div>
+                    <GraphTrainJourneyActivity />
+                </div>
+
+                {/* Feroz and Sania Plotter Section */}
+                <div className="mb-24">
+                    <div className="bg-white p-10 rounded-t-[3rem] border-4 border-b-0 border-slate-100 relative">
+                        <h4 className="text-2xl font-black text-slate-800 mb-4 flex items-center gap-3">
+                            <Play className="text-rose-500 fill-current w-6 h-6" /> Activity: Feroz and Sania
+                        </h4>
+                        <p className="text-lg text-slate-600 font-medium max-w-4xl">
+                            Feroz and his sister Sania go to school on their bicycles. Both of them start at the same time from their home but take different times to reach the school although they follow the same route. Table 7.5 shows the distance travelled by them in different times. Plot the distance-time graph for their motions on the same scale and interpret.
+                        </p>
+                    </div>
+                    <GraphDataPlotterActivity />
+                </div>
+
                 {/* Summary Table */}
                 <div className="mb-24">
                     <h3 className="text-4xl font-black text-center text-slate-900 mb-10">The Graph Matrix</h3>
@@ -186,6 +230,55 @@ export default function ChapterThreeOne() {
                         </div>
                     </div>
                 </div>
+
+                {/* Review Questions */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    className="bg-slate-800 p-10 lg:p-14 rounded-[3rem] shadow-xl mb-24 text-white relative overflow-hidden"
+                >
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-slate-700 rounded-bl-full flex items-start justify-end p-12 opacity-50 z-0 text-slate-600">
+                        <CheckCircle size={100} />
+                    </div>
+
+                    <div className="relative z-10">
+                        <h3 className="text-3xl font-black text-white mb-8">Questions from the Text</h3>
+
+                        <div className="space-y-8">
+                            <div className="bg-slate-700/50 p-6 rounded-2xl border border-slate-600">
+                                <p className="text-lg font-medium mb-4"><strong>1.</strong> What is the nature of the distance-time graphs for uniform and non-uniform motion of an object?</p>
+                                <div className="bg-emerald-500/10 text-emerald-300 p-4 rounded-xl font-medium flex gap-3 border border-emerald-500/20">
+                                    <CheckCircle className="shrink-0 mt-0.5" />
+                                    <span><strong>Uniform:</strong> A straight line passing through origin.<br /><strong>Non-Uniform:</strong> A curved (non-linear) line.</span>
+                                </div>
+                            </div>
+
+                            <div className="bg-slate-700/50 p-6 rounded-2xl border border-slate-600">
+                                <p className="text-lg font-medium mb-4"><strong>2.</strong> What can you say about the motion of an object whose distance-time graph is a straight line parallel to the time axis?</p>
+                                <div className="bg-emerald-500/10 text-emerald-300 p-4 rounded-xl font-medium flex gap-3 border border-emerald-500/20">
+                                    <CheckCircle className="shrink-0 mt-0.5" />
+                                    <span>The object is at <strong>rest</strong> (its position is not changing as time passes).</span>
+                                </div>
+                            </div>
+
+                            <div className="bg-slate-700/50 p-6 rounded-2xl border border-slate-600">
+                                <p className="text-lg font-medium mb-4"><strong>3.</strong> What can you say about the motion of an object if its speed-time graph is a straight line parallel to the time axis?</p>
+                                <div className="bg-emerald-500/10 text-emerald-300 p-4 rounded-xl font-medium flex gap-3 border border-emerald-500/20">
+                                    <CheckCircle className="shrink-0 mt-0.5" />
+                                    <span>The object is moving with <strong>uniform speed</strong> (zero acceleration).</span>
+                                </div>
+                            </div>
+
+                            <div className="bg-slate-700/50 p-6 rounded-2xl border border-slate-600">
+                                <p className="text-lg font-medium mb-4"><strong>4.</strong> What is the quantity which is measured by the area occupied below the velocity-time graph?</p>
+                                <div className="bg-emerald-500/10 text-emerald-300 p-4 rounded-xl font-medium flex gap-3 border border-emerald-500/20">
+                                    <CheckCircle className="shrink-0 mt-0.5" />
+                                    <span>The magnitude of displacement (or distance traveled).</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
 
             </div>
 
