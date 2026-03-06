@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import FluidGlass from './FluidGlass';
 import ChapterFooter from './ChapterFooter';
 import ProblemSolverActivity from './ProblemSolverActivity';
 import NumericalGallery from './NumericalGallery';
@@ -23,10 +22,10 @@ function PracticalHeaderAnimation() {
                     <Target className="w-10 h-10" />
                 </motion.div>
 
-                <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-slate-800 to-slate-900 font-outfit tracking-tighter mb-2">
+                <h1 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-slate-800 to-slate-900 font-outfit tracking-tighter mb-2">
                     PRACTICAL
                 </h1>
-                <h2 className="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 via-teal-600 to-cyan-600 font-outfit tracking-tighter drop-shadow-[0_10px_20px_rgba(16,185,129,0.3)]">
+                <h2 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-emerald-400 via-teal-600 to-cyan-600 font-outfit tracking-tighter drop-shadow-[0_10px_20px_rgba(16,185,129,0.3)]">
                     APPLICATIONS
                 </h2>
 
@@ -41,9 +40,7 @@ function PracticalHeaderAnimation() {
 export default function ChapterTwoThree() {
     return (
         <div className="w-full min-h-screen bg-slate-50/50 pb-20">
-            <FluidGlass>
-                <div />
-            </FluidGlass>
+            {/* Removed empty box */}
 
             {/* Header Section */}
             <div className="pt-20 px-4">
@@ -54,7 +51,7 @@ export default function ChapterTwoThree() {
                 >
                     <div className="flex items-center gap-3 bg-white/80 border-2 border-white px-6 py-3 rounded-full w-fit shadow-sm backdrop-blur-md">
                         <span className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white font-black text-sm">3</span>
-                        <h4 className="text-slate-600 font-black tracking-widest uppercase text-sm">Unit 3: Mathematical Engineering</h4>
+                        <h4 className="text-slate-600 font-black tracking-widest uppercase text-sm">Unit 3: Practical Application (Example)</h4>
                     </div>
                 </motion.div>
 
