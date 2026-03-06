@@ -12,7 +12,7 @@ import puppeteer from 'puppeteer';
 
     const chapters = [
         '/chapter-1.1', '/chapter-1.2', '/chapter-1.3', '/chapter-1.4',
-        '/chapter-2.1', '/chapter-2.2', '/chapter-2.3', '/chapter-3.1'
+        '/chapter-2.1', '/chapter-2.2', '/chapter-2.3', '/chapter-3.1', '/chapter-3.2'
     ];
 
     for (const route of chapters) {
