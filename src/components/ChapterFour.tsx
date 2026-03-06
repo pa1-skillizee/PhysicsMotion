@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { Gauge, Zap, ArrowRight } from 'lucide-react';
 import FluidGlass from './FluidGlass';
 import ChapterFooter from './ChapterFooter';
-import Velocity3DModel from './Velocity3DModel';
 import UniformMotionActivity from './UniformMotionActivity';
 import LightningDistanceActivity from './LightningDistanceActivity';
 
@@ -223,9 +222,6 @@ export default function ChapterFour() {
                 </div>
             </div>
 
-            {/* 3D Model for Velocity & Acceleration */}
-            <Velocity3DModel />
-
             {/* Interactive Activity 1 */}
             <UniformMotionActivity />
 
@@ -310,6 +306,6 @@ export default function ChapterFour() {
 
             {/* Global Footer */}
             <ChapterFooter chapterName="1.4 ⏤ Speed and Velocity" />
-        </div >
+        </div>
     );
 }

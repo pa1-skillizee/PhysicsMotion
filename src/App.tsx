@@ -3,7 +3,8 @@ import Scene3D from './components/Scene3D';
 import ChapterOne from './components/ChapterOne'; // Chapter 1.1
 import ChapterTwo from './components/ChapterTwo';       // Chapter 1.2
 import ChapterThree from './components/ChapterThree';   // Chapter 1.3
-import ChapterFour from './components/ChapterFour';
+import ChapterFour from './components/ChapterFour';     // Chapter 1.4
+import ChapterTwoOne from './components/ChapterTwoOne'; // Chapter 2.1
 import TopProgressBar from './components/TopProgressBar';
 import FullscreenButton from './components/FullscreenButton';
 import BottomProgressRing from './components/BottomProgressRing';
@@ -36,6 +37,7 @@ function App() {
             <Route path="/chapter-1.2" element={<ChapterTwo />} />
             <Route path="/chapter-1.3" element={<ChapterThree />} />
             <Route path="/chapter-1.4" element={<ChapterFour />} />
+            <Route path="/chapter-2.1" element={<ChapterTwoOne />} />
           </Routes>
         </div>
 

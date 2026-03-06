@@ -3,7 +3,6 @@ import { Ruler, RefreshCw } from 'lucide-react';
 import FluidGlass from './FluidGlass';
 import ChapterFooter from './ChapterFooter';
 import InteractivePathActivity from './InteractivePathActivity';
-import Distance3DModel from './Distance3DModel';
 
 // Reusable Video Component
 function VideoFrame({ url }: { url: string }) {
@@ -152,11 +151,6 @@ export default function ChapterTwo() {
                         </li>
                     </ul>
                 </motion.div>
-            </div>
-
-            {/* 3D Interactive Model for Distance and Displacement */}
-            <div className="mt-16">
-                <Distance3DModel />
             </div>
 
             {/* Example Videos */}

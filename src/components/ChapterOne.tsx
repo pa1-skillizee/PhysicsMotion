@@ -3,7 +3,6 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Bus, TreePine, PersonStanding } from 'lucide-react';
 import FluidGlass from './FluidGlass';
 import Interactive3DSimulation from './Interactive3DSimulation';
-import Motion3DModel from './Motion3DModel';
 import ChapterFooter from './ChapterFooter';
 
 // Reusable Video Component
@@ -90,7 +89,7 @@ export default function ChapterContent() {
             </motion.header>
 
             {/* Main Content Modules */}
-            <div className="flex flex-col gap-16 pb-8 mt-[-5vh]">
+            <div className="flex flex-col gap-16 pb-32 mt-[-5vh]">
 
                 <VideoFrame url="jggrSjc1if0" />
 
@@ -133,9 +132,6 @@ export default function ChapterContent() {
                         </div>
                     </div>
                 </motion.div>
-
-                {/* 3D Interactive Model for Reference Point */}
-                <Motion3DModel />
 
                 {/* Discussion Card - FluidGlass */}
                 <FluidGlass>
@@ -256,7 +252,7 @@ export default function ChapterContent() {
                 {/* Gamification Activities Content inline */}
                 <hr className="border-4 border-white/40 rounded-full my-8 mix-blend-overlay" />
                 <ActivitiesContent />
-            </div >
+            </div>
         </div >
     );
 }

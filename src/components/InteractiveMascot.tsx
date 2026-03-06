@@ -54,6 +54,17 @@ export default function InteractiveMascot() {
         ];
         gradientStyle = "from-orange-500 to-red-400";
         mascotFace = "🏎️";
+    } else if (location.pathname.includes("chapter-2.1")) {
+        // Acceleration
+        funFacts = [
+            "Acceleration doesn't just mean speeding up! Pressing the brakes is NEGATIVE acceleration! 🛑",
+            "Gravity pulls you toward Earth at an acceleration of 9.8 m/s²! 🌍",
+            "Turning a corner in a car means you're accelerating, even if your speed stays the exact same! 🔄",
+            "A cheetah Accelerates from 0 to 60 mph in just 3 seconds! 🐆",
+            "If velocity is exactly constant, acceleration is a big fat ZERO! 🍩"
+        ];
+        gradientStyle = "from-violet-500 to-fuchsia-400";
+        mascotFace = "🚀";
     } else {
         // Fallback
         funFacts = ["Motion is everywhere! Keep exploring! ⚛️"];

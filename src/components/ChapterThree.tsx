@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import { Compass, Zap, MoveRight, RefreshCw } from 'lucide-react';
 import FluidGlass from './FluidGlass';
 import ChapterFooter from './ChapterFooter';
+// Interactive 1.3 Gamified Component will be imported here
 import DisplacementVectorActivity from './DisplacementVectorActivity';
-import Vector3DModel from './Vector3DModel';
 
-// No videos currently needed for Chapter 3
+// VideoFrame removed as there are no videos currently needed for Chapter 3
 
 function FlipRevealText({ text, colorFrom, colorTo }: { text: string, colorFrom: string, colorTo: string }) {
     const chars = text.split("");
@@ -193,9 +193,6 @@ export default function ChapterThree() {
                     </table>
                 </div>
             </div>
-
-            {/* 3D Vector Model */}
-            <Vector3DModel />
 
             {/* Odometer & Activity Section */}
             <div className="grid md:grid-cols-2 gap-10 mb-16">
