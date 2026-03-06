@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Target, CheckCircle2 } from 'lucide-react';
+import { Target, CheckCircle2, Bike, Trophy, RefreshCcw } from 'lucide-react';
 
 type PlotPoint = { x: number; y: number };
 
@@ -49,6 +49,15 @@ export default function GraphDataPlotterActivity() {
     const yAxisLabels = [4.0, 3.0, 2.0, 1.0, 0];
     const xAxisLabels = ['8:00', '8:05', '8:10', '8:15', '8:20', '8:25'];
 
+    const getBikePosition = (points: PlotPoint[]) => {
+        if (points.length === 0) return { x: '0%', y: '100%' };
+        const last = points[points.length - 1];
+        return {
+            x: `${(last.x / 5) * 100}%`,
+            y: `${100 - (last.y / 4.0) * 100}%`
+        };
+    };
+
     return (
         <div className="bg-white rounded-[3rem] p-8 lg:p-12 shadow-2xl border-4 border-slate-100 flex flex-col lg:flex-row gap-12 items-center">
 
@@ -81,20 +90,35 @@ export default function GraphDataPlotterActivity() {
                 </div>
 
                 <div className="mt-8 flex flex-col gap-3">
-                    <button
-                        onClick={() => setActivePerson('feroz')}
-                        className={`p-3 rounded-xl border-2 font-bold flex items-center justify-between transition-all ${activePerson === 'feroz' ? 'bg-blue-50 border-blue-400 text-blue-700 shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'}`}
-                    >
-                        <span>Plotting Feroz</span>
-                        {ferozPoints.length >= 5 ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <Target className="w-5 h-5" />}
-                    </button>
-                    <button
-                        onClick={() => setActivePerson('sania')}
-                        className={`p-3 rounded-xl border-2 font-bold flex items-center justify-between transition-all ${activePerson === 'sania' ? 'bg-pink-50 border-pink-400 text-pink-700 shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'}`}
-                    >
-                        <span>Plotting Sania</span>
-                        {saniaPoints.length >= 6 ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <Target className="w-5 h-5" />}
-                    </button>
+                    {!isComplete ? (
+                        <>
+                            <button
+                                onClick={() => setActivePerson('feroz')}
+                                className={`p-3 rounded-xl border-2 font-bold flex items-center justify-between transition-all ${activePerson === 'feroz' ? 'bg-blue-50 border-blue-400 text-blue-700 shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'}`}
+                            >
+                                <span className="flex items-center gap-2"><Bike className="w-5 h-5" /> Plotting Feroz</span>
+                                {ferozPoints.length >= 5 ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <Target className="w-5 h-5" />}
+                            </button>
+                            <button
+                                onClick={() => setActivePerson('sania')}
+                                className={`p-3 rounded-xl border-2 font-bold flex items-center justify-between transition-all ${activePerson === 'sania' ? 'bg-pink-50 border-pink-400 text-pink-700 shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'}`}
+                            >
+                                <span className="flex items-center gap-2"><Bike className="w-5 h-5" /> Plotting Sania</span>
+                                {saniaPoints.length >= 6 ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <Target className="w-5 h-5" />}
+                            </button>
+                        </>
+                    ) : (
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-gradient-to-br from-amber-400 to-amber-600 p-6 rounded-2xl text-white shadow-xl relative overflow-hidden">
+                            <Trophy className="absolute -right-4 -bottom-4 w-32 h-32 opacity-20 text-white" />
+                            <h4 className="text-xl font-black mb-1 drop-shadow-md">Feroz Wins! 🏆</h4>
+                            <p className="text-amber-50 font-medium text-sm drop-shadow-sm mb-4">
+                                Feroz reached 3.6 km at 8:20 am, completely finishing his route <strong>5 minutes faster</strong> than Sania who arrived at 8:25 am! Feroz's steeper graph slope proves his higher speed.
+                            </p>
+                            <button onClick={() => { setFerozPoints([{ x: 0, y: 0 }]); setSaniaPoints([{ x: 0, y: 0 }]); setIsComplete(false); setActivePerson('feroz'); }} className="flex items-center gap-2 bg-white/20 hover:bg-white/30 transition-colors px-4 py-2 font-bold rounded-lg text-sm w-fit backdrop-blur-md border border-white/30">
+                                <RefreshCcw className="w-4 h-4" /> Reset Graph
+                            </button>
+                        </motion.div>
+                    )}
                 </div>
             </div>
 
@@ -129,9 +153,36 @@ export default function GraphDataPlotterActivity() {
                         {/* Interactive Grid Overlay */}
                         <div className="absolute inset-0 grid grid-cols-5 grid-rows-4 opacity-30">
                             {[...Array(20)].map((_, i) => (
-                                <div key={i} className="border-t border-r border-slate-300 border-dashed"></div>
+                                <div key={i} className="border-t border-r border-slate-300 border-dashed pointer-events-none"></div>
                             ))}
                         </div>
+
+                        {/* Animated Bikes */}
+                        {ferozPoints.length > 0 && (
+                            <motion.div
+                                animate={{ left: getBikePosition(ferozPoints).x, top: getBikePosition(ferozPoints).y }}
+                                transition={{ type: "spring", stiffness: 100, damping: 15 }}
+                                className="absolute z-30 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none drop-shadow-md"
+                            >
+                                <div className="bg-blue-500 text-white p-1 rounded-full border-2 border-white shadow-lg relative">
+                                    <Bike className="w-4 h-4" />
+                                    <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded opacity-0 lg:opacity-100">Feroz</div>
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {saniaPoints.length > 0 && (
+                            <motion.div
+                                animate={{ left: getBikePosition(saniaPoints).x, top: getBikePosition(saniaPoints).y }}
+                                transition={{ type: "spring", stiffness: 100, damping: 15 }}
+                                className="absolute z-30 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none drop-shadow-md"
+                            >
+                                <div className="bg-pink-500 text-white p-1 rounded-full border-2 border-white shadow-lg relative">
+                                    <Bike className="w-4 h-4" />
+                                    <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-pink-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded opacity-0 lg:opacity-100">Sania</div>
+                                </div>
+                            </motion.div>
+                        )}
 
                         {/* Clickable Coordinates */}
                         <div className="absolute inset-0 flex justify-between items-end">
@@ -162,17 +213,6 @@ export default function GraphDataPlotterActivity() {
                 <div className="absolute top-1/2 -left-8 -rotate-90 text-sm font-black tracking-widest text-slate-300 uppercase">Distance (km)</div>
                 <div className="text-center text-sm font-black tracking-widest text-slate-300 uppercase mt-2">Time (am)</div>
             </div>
-
-            {isComplete && (
-                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center rounded-[3rem]">
-                    <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-emerald-500 text-white p-8 rounded-3xl shadow-2xl text-center max-w-sm">
-                        <CheckCircle2 className="w-20 h-20 mx-auto mb-4 opacity-90" />
-                        <h3 className="text-2xl font-black mb-2">Great Job!</h3>
-                        <p className="font-medium text-emerald-100">You successfully plotted both Feroz and Sania's motion. Who was traveling faster? Feroz!</p>
-                        <button onClick={() => { setFerozPoints([{ x: 0, y: 0 }]); setSaniaPoints([{ x: 0, y: 0 }]); setIsComplete(false); }} className="mt-6 bg-white text-emerald-600 px-6 py-2 rounded-full font-bold shadow-md hover:scale-105 transition-transform">Reset Graph</button>
-                    </motion.div>
-                </div>
-            )}
         </div>
     );
 }

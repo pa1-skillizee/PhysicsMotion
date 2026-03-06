@@ -55,7 +55,7 @@ export default function GraphTrainJourneyActivity() {
         <div className="bg-slate-900 rounded-[3rem] p-8 lg:p-12 shadow-2xl relative overflow-hidden">
             <div className="absolute inset-0 opacity-30 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-900 via-slate-900 to-black"></div>
 
-            <div className="relative z-10">
+            <div className="relative z-20 pointer-events-auto">
                 <div className="text-center mb-10">
                     <h3 className="text-3xl font-black text-white mb-2">The Train Conductor</h3>
                     <p className="text-slate-400 font-medium">Drag the timeline slider to drive the train from Station A to Station C. Watch the graph flatten when the train is parked!</p>
@@ -148,7 +148,7 @@ export default function GraphTrainJourneyActivity() {
                             max={maxTime}
                             value={timeValue}
                             onChange={(e) => setTimeValue(Number(e.target.value))}
-                            className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-500"
+                            className="w-full h-3 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-500 relative z-50 pointer-events-auto"
                         />
                         <div className="flex justify-between w-full mt-2 text-xs font-black text-slate-500">
                             <span>08:00</span>
