@@ -79,7 +79,7 @@ export default function ChapterTwoTwo() {
                         <iframe
                             width="100%"
                             height="100%"
-                            src="https://www.youtube.com/embed/GX5zToM_Vvg?start=0&end=960"
+                            src="https://www.youtube.com/embed/_GHdjcHxYxo"
                             title="Motion Class 9 Physics - Equations"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen

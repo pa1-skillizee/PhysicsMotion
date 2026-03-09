@@ -102,7 +102,7 @@ export default function ChapterTwo() {
             </motion.div>
 
             {/* Video Section */}
-            <VideoFrame url="https://youtu.be/Xo3KBoEMDEo?list=PLG2_S6yzON5f4T3kSAkkeMlTBMTAtsLrz" />
+            <VideoFrame url="gGMsPQxh4Hs" />
 
             {/* Definitions Section */}
             <div className="grid md:grid-cols-2 gap-10 mt-16">
@@ -156,10 +156,10 @@ export default function ChapterTwo() {
             {/* Example Videos */}
             <div className="flex flex-col md:flex-row gap-8 mt-16 w-full justify-center">
                 <div className="w-full md:w-1/2">
-                    <VideoFrame url="https://youtu.be/YshnFne48pw" />
+                    <VideoFrame url="m3VoU3LpES8" />
                 </div>
                 <div className="w-full md:w-1/2">
-                    <VideoFrame url="https://www.youtube.com/watch?v=21BwUNDOQno" />
+                    <VideoFrame url="4t0pwmg8JQc" />
                 </div>
             </div>
 

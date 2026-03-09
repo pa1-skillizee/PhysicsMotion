@@ -22,6 +22,8 @@ export default function InteractiveGraphSimulator() {
         let currentS = 0;
         let currentV = 0;
         let lastTimestamp = 0;
+        let distCapped = false;
+        let velCapped = false;
 
         const updatePhysics = (timestamp: number) => {
             if (!isPlaying) return;
@@ -62,14 +64,31 @@ export default function InteractiveGraphSimulator() {
 
             // Map to SVG coordinates (Width: 300, Height: 200)
             const mapX = (x: number) => (x / maxTime) * 300;
-            const mapY = (y: number, max: number) => 200 - (Math.min(y, max) / max) * 200;
+            const mapY = (y: number, max: number) => 200 - (y / max) * 200;
 
             const svgX = mapX(t);
-            const distY = mapY(currentS, 200);
-            const velY = mapY(currentV, 5);
 
-            setDistancePoints(prev => `${prev} ${svgX},${distY}`);
-            setVelocityPoints(prev => `${prev} ${svgX},${velY}`);
+            if (!distCapped) {
+                if (currentS > 200) {
+                    const distY = mapY(200, 200); // 0
+                    setDistancePoints(prev => `${prev} ${svgX},${distY}`);
+                    distCapped = true;
+                } else {
+                    const distY = mapY(currentS, 200);
+                    setDistancePoints(prev => `${prev} ${svgX},${distY}`);
+                }
+            }
+
+            if (!velCapped) {
+                if (currentV > 5) {
+                    const velY = mapY(5, 5); // 0
+                    setVelocityPoints(prev => `${prev} ${svgX},${velY}`);
+                    velCapped = true;
+                } else {
+                    const velY = mapY(currentV, 5);
+                    setVelocityPoints(prev => `${prev} ${svgX},${velY}`);
+                }
+            }
 
             // Move car
             carX.set(Math.min(currentS, 800)); // Max width of road
@@ -117,7 +136,7 @@ export default function InteractiveGraphSimulator() {
                             style={{ x: carX }}
                             className="absolute bottom-4 left-4 text-5xl drop-shadow-lg"
                         >
-                            🏎️
+                            <div className="scale-x-[-1]">🏎️</div>
                         </motion.div>
                     </div>
                 </div>

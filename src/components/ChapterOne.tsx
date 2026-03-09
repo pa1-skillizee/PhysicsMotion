@@ -5,6 +5,7 @@ import FluidGlass from './FluidGlass';
 import Interactive3DSimulation from './Interactive3DSimulation';
 import IframeActivity from './IframeActivity';
 import ChapterFooter from './ChapterFooter';
+import MotionIsRelativeImg from '../assets/Motion is relative.png';
 
 // Reusable Video Component
 function VideoFrame({ url }: { url: string }) {
@@ -92,7 +93,8 @@ export default function ChapterContent() {
             {/* Main Content Modules */}
             <div className="flex flex-col gap-16 pb-32 mt-[-5vh]">
 
-                <VideoFrame url="jggrSjc1if0" />
+                <VideoFrame url="FNqMDCMXV4I" />
+                <VideoFrame url="M3FeYI85Y6A" />
 
                 {/* Module 1 Section */}
                 <motion.div
@@ -162,10 +164,10 @@ export default function ChapterContent() {
                     </motion.h2>
 
                     <div className="rounded-[2.5rem] overflow-hidden mb-10 border-[12px] border-gray-100 shadow-xl transform group-hover:rotate-1 transition-transform group-hover:scale-[1.02] duration-500">
-                        <img src="https://login.skillizee.io/s/articles/69a293bbd32ca8035f1b7aba/images/image-20260228123532-1.png" alt="Motion Diagram" className="w-full h-auto object-cover" />
+                        <img src={MotionIsRelativeImg} alt="Motion Diagram" className="w-full h-auto object-cover" />
                     </div>
 
-                    <VideoFrame url="YshnFne48pw" />
+                    {/* Video 1.1-2 moved to top, removing extra video here */}
 
                     <p className="text-gray-800 text-2xl font-medium mb-10 p-8 bg-pastel-yellow border-4 border-yellow-400 rounded-[2rem] shadow-[0_8px_0_0_rgba(250,204,21,0.5)] transition-transform group-hover:-translate-y-2">
                         An object can be in motion and at rest at the same time, depending on who is looking at it. This is why we say motion is "relative."

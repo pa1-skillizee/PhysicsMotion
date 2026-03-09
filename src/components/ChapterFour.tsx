@@ -130,7 +130,10 @@ export default function ChapterFour() {
             </div>
 
             {/* Video Context */}
-            <VideoFrame url="https://youtu.be/YshnFne48pw" />
+            <VideoFrame url="qfe_H4EXyOs" />
+            <VideoFrame url="FH2Y117EPaQ" />
+            <VideoFrame url="YzTF8kGE5yQ" />
+            <VideoFrame url="iUIcE9JCq_U" />
 
             {/* Key Characteristics Cards */}
             <h2 className="text-5xl font-black text-center text-slate-800 mb-12 drop-shadow-sm">Key Characteristics</h2>

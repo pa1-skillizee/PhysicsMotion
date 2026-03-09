@@ -76,7 +76,7 @@ export default function ChapterThreeOne() {
                     <div className="w-full flex justify-center mb-8">
                         <iframe
                             className="w-full max-w-[800px] aspect-video rounded-3xl shadow-xl border-4 border-slate-100"
-                            src="https://www.youtube.com/embed/y5nvxek9WhI?start=59&end=2491"
+                            src="https://www.youtube.com/embed/5VGL-wF-WyQ"
                             title="Motion Graphs Video"
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

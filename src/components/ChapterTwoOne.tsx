@@ -3,6 +3,7 @@ import { Rocket, Info } from 'lucide-react';
 import FluidGlass from './FluidGlass';
 import ChapterFooter from './ChapterFooter';
 import AccelerationActivity from './AccelerationActivity';
+import GalileoTowerActivity from './GalileoTowerActivity';
 
 function AccelerationHeaderAnimation({ text }: { text: string }) {
     const words = text.split(" ");
@@ -83,14 +84,14 @@ export default function ChapterTwoOne() {
                         <iframe
                             width="100%"
                             height="100%"
-                            src="https://www.youtube.com/embed/YshnFne48pw?start=3307&end=3775"
+                            src="https://www.youtube.com/embed/BPT_tdkPNBI"
                             title="Motion Class 9 Physics"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
                             className="absolute inset-0"
                         />
                         <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md text-white px-4 py-1 rounded-full text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                            55:07 to 1:02:55
+                            Video 2.1 - 1
                         </div>
                     </div>
 
@@ -159,6 +160,11 @@ export default function ChapterTwoOne() {
 
             {/* AI Evaluator Activity */}
             <AccelerationActivity />
+
+            {/* Implemented New Galileo Activity */}
+            <div className="mt-16 relative z-30 px-6 max-w-[1240px] mx-auto">
+                <GalileoTowerActivity />
+            </div>
 
             <ChapterFooter chapterName="Rate of Change of Velocity: Acceleration" />
         </div>
