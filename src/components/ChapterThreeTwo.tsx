@@ -188,7 +188,14 @@ export default function ChapterThreeTwo() {
                         </p>
                         <div className="flex flex-wrap gap-4 justify-center">
                             <span className="bg-white/10 px-6 py-3 rounded-2xl font-black text-2xl font-serif text-white shadow-inner backdrop-blur-sm border border-white/20">v = u + at</span>
-                            <span className="bg-white/10 px-6 py-3 rounded-2xl font-black text-2xl font-serif text-white shadow-inner backdrop-blur-sm border border-white/20">s = ut + ½at²</span>
+                            <span className="bg-white/10 px-6 py-3 rounded-2xl font-black text-2xl font-serif text-white shadow-inner backdrop-blur-sm border border-white/20 flex items-center gap-2">
+                                <span>s = ut +</span>
+                                <div className="flex flex-col items-center justify-center text-[0.6em] leading-none mt-1">
+                                    <span className="border-b-2 border-white pb-[2px] w-full text-center">1</span>
+                                    <span className="pt-[2px]">2</span>
+                                </div>
+                                <span>at²</span>
+                            </span>
                             <span className="bg-white/10 px-6 py-3 rounded-2xl font-black text-2xl font-serif text-white shadow-inner backdrop-blur-sm border border-white/20">2as = v² - u²</span>
                         </div>
                     </div>

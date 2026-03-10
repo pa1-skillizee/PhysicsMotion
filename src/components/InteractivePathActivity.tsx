@@ -76,17 +76,14 @@ export default function InteractivePathActivity() {
                         style={{ width: `${currentPos}%`, minWidth: `${points.O}%` }}
                     />
 
-                    {/* Draggable Car/Dot */}
-                    <motion.div
-                        className="absolute top-1/2 -translate-y-1/2 -ml-6 cursor-grab active:cursor-grabbing z-20"
-                        style={{ left: `${Math.max(points.O, currentPos)}%` }}
-                        drag="x"
-                        dragConstraints={{ left: 0, right: 0 }} // We're using onDrag to update percentages, not letting framer handle absolute X
-                        onDrag={(_, info) => {
-                            // Convert pixel offset to percentage (simplified estimation based on parent container)
-                            const screenWidth = window.innerWidth > 1000 ? 900 : window.innerWidth - 100;
-                            const newPosPercent = currentPos + (info.delta.x / screenWidth) * 100;
-
+                    {/* Native Range Slider Overlay (invisible but handles logic perfectly) */}
+                    <input
+                        type="range"
+                        min={0}
+                        max={100}
+                        value={currentPos}
+                        onChange={(e) => {
+                            const newPosPercent = Number(e.target.value);
                             // Clamp values based on state
                             let clampedPos = newPosPercent;
                             if (!hasReachedEnd) {
@@ -94,9 +91,15 @@ export default function InteractivePathActivity() {
                             } else {
                                 clampedPos = Math.max(points.B, Math.min(points.A, newPosPercent));
                             }
-
                             setCurrentPos(clampedPos);
                         }}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
+                    />
+
+                    {/* Draggable Car/Dot Visuals */}
+                    <motion.div
+                        className="absolute top-1/2 -translate-y-1/2 -ml-6 z-20 pointer-events-none"
+                        style={{ left: `${Math.max(points.O, currentPos)}%` }}
                     >
                         <div className="w-12 h-12 bg-yellow-400 rounded-full border-4 border-white shadow-lg flex items-center justify-center text-xl hover:scale-110 transition-transform">
                             🚗

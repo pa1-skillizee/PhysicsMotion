@@ -62,32 +62,32 @@ export default function InteractiveGraphSimulator() {
 
             currentS += currentV;
 
+            // Cap the values strictly before drawing to avoid drawing a flat horizontal line across the top
+            if (currentS > 200) currentS = 200;
+            if (currentV > 5) currentV = 5;
+
             // Map to SVG coordinates (Width: 300, Height: 200)
             const mapX = (x: number) => (x / maxTime) * 300;
             const mapY = (y: number, max: number) => 200 - (y / max) * 200;
 
             const svgX = mapX(t);
 
-            if (!distCapped) {
-                if (currentS > 200) {
-                    const distY = mapY(200, 200); // 0
-                    setDistancePoints(prev => `${prev} ${svgX},${distY}`);
+            if (currentS === 200) {
+                if (!distCapped) {
+                    setDistancePoints(prev => `${prev} ${svgX},0`);
                     distCapped = true;
-                } else {
-                    const distY = mapY(currentS, 200);
-                    setDistancePoints(prev => `${prev} ${svgX},${distY}`);
                 }
+            } else {
+                setDistancePoints(prev => `${prev} ${svgX},${mapY(currentS, 200)}`);
             }
 
-            if (!velCapped) {
-                if (currentV > 5) {
-                    const velY = mapY(5, 5); // 0
-                    setVelocityPoints(prev => `${prev} ${svgX},${velY}`);
+            if (currentV === 5) {
+                if (!velCapped) {
+                    setVelocityPoints(prev => `${prev} ${svgX},0`);
                     velCapped = true;
-                } else {
-                    const velY = mapY(currentV, 5);
-                    setVelocityPoints(prev => `${prev} ${svgX},${velY}`);
                 }
+            } else {
+                setVelocityPoints(prev => `${prev} ${svgX},${mapY(currentV, 5)}`);
             }
 
             // Move car
@@ -136,7 +136,7 @@ export default function InteractiveGraphSimulator() {
                             style={{ x: carX }}
                             className="absolute bottom-4 left-4 text-5xl drop-shadow-lg"
                         >
-                            <div className="scale-x-[-1]">🏎️</div>
+                            <div className="scale-x-[-1] inline-block transform">🏎️</div>
                         </motion.div>
                     </div>
                 </div>

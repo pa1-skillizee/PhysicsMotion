@@ -9,12 +9,51 @@ export default function LightningDistanceActivity() {
     const timerRef = useRef<number | null>(null);
     const startTimeRef = useRef<number | null>(null);
 
+    const [allowSound, setAllowSound] = useState(true);
+
     // Physics constants
     const speedOfSound = 346; // m/s in air as per book
+
+    const audioContextRef = useRef<AudioContext | null>(null);
+
+    const playThunderSound = () => {
+        if (!allowSound) return;
+        
+        if (!audioContextRef.current) {
+            audioContextRef.current = new window.AudioContext();
+        }
+        
+        const ctx = audioContextRef.current;
+        const oscillator = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+        
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.setValueAtTime(50, ctx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(10, ctx.currentTime + 1.5);
+        
+        gainNode.gain.setValueAtTime(0, ctx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.1);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.5);
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(ctx.destination);
+        
+        oscillator.start();
+        oscillator.stop(ctx.currentTime + 1.5);
+    };
 
     const triggerLightning = () => {
         setPhase('FLASHED');
         startTimeRef.current = Date.now();
+
+        // Calculate a random distance (1s to 9s of delay)
+        const randomSecondsDelay = Math.floor(Math.random() * 8) + 1;
+        
+        setTimeout(() => {
+            if (phaseRef.current === 'FLASHED') {
+                 triggerThunder(true);
+            }
+        }, randomSecondsDelay * 1000);
 
         // Start Stopwatch
         timerRef.current = setInterval(() => {
@@ -25,9 +64,13 @@ export default function LightningDistanceActivity() {
         }, 50); // High res update
     };
 
-    const triggerThunder = () => {
+    const phaseRef = useRef(phase);
+    useEffect(() => { phaseRef.current = phase; }, [phase]);
+
+    const triggerThunder = (autoTrigger: boolean = false) => {
         if (timerRef.current) clearInterval(timerRef.current);
         setPhase('THUNDERED');
+        playThunderSound();
 
         // Brief pause before showing calculation
         setTimeout(() => {
@@ -99,11 +142,21 @@ export default function LightningDistanceActivity() {
                         </div>
 
                         {/* Interactive Buttons */}
-                        <div className="flex gap-4">
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center justify-center gap-3 bg-slate-800 p-3 rounded-full border-2 border-slate-700 w-full mb-2">
+                                <label className="text-slate-300 font-bold text-sm">Allow Sound</label>
+                                <button 
+                                    onClick={() => setAllowSound(!allowSound)}
+                                    className={`w-12 h-6 rounded-full transition-colors relative ${allowSound ? 'bg-emerald-500' : 'bg-slate-600'}`}
+                                >
+                                    <div className={`w-4 h-4 rounded-full bg-white absolute top-1 transition-transform ${allowSound ? 'translate-x-7' : 'translate-x-1'}`}></div>
+                                </button>
+                            </div>
+
                             {phase === 'IDLE' && (
                                 <button
                                     onClick={triggerLightning}
-                                    className="px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-yellow-950 font-black text-xl rounded-full shadow-[0_0_20px_rgba(234,179,8,0.5)] transition-all hover:scale-105 flex items-center gap-2"
+                                    className="px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-yellow-950 font-black text-xl rounded-full shadow-[0_0_20px_rgba(234,179,8,0.5)] transition-all hover:scale-105 flex items-center gap-2 justify-center"
                                 >
                                     <Zap /> 1. I See Lightning!
                                 </button>
@@ -111,8 +164,8 @@ export default function LightningDistanceActivity() {
 
                             {phase === 'FLASHED' && (
                                 <button
-                                    onClick={triggerThunder}
-                                    className="px-8 py-4 bg-blue-500 hover:bg-blue-400 text-white font-black text-xl rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all hover:scale-105 flex items-center gap-2 animate-pulse"
+                                    onClick={() => triggerThunder(false)}
+                                    className="px-8 py-4 bg-blue-500 hover:bg-blue-400 text-white font-black text-xl rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all hover:scale-105 flex items-center gap-2 animate-pulse justify-center"
                                 >
                                     🔊 2. I Hear Thunder!
                                 </button>
@@ -121,7 +174,7 @@ export default function LightningDistanceActivity() {
                             {(phase === 'THUNDERED' || phase === 'CALCULATED') && (
                                 <button
                                     onClick={resetActivity}
-                                    className="px-8 py-4 bg-slate-700 hover:bg-slate-600 text-slate-300 font-bold text-xl rounded-full transition-all flex items-center gap-2"
+                                    className="px-8 py-4 bg-slate-700 hover:bg-slate-600 text-slate-300 font-bold text-xl rounded-full transition-all flex items-center gap-2 justify-center"
                                 >
                                     <TimerReset /> Reset Storm
                                 </button>

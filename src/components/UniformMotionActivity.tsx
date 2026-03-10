@@ -45,15 +45,18 @@ export default function UniformMotionActivity() {
             // Calculate Distance based on Motion Type
             let currentDist = 0;
             if (isUniform) {
-                // Uniform: Constant speed v = distance / time -> d = v * t
-                // Let's say v = 10 m/s
                 currentDist = 10 * elapsedTime;
                 setCurrentSpeed(10);
             } else {
-                // Non-Uniform: Accelerating -> d = 0.5 * a * t^2
-                // Let's say a = 2 m/s^2 -> d = t^2. Speed v = a*t = 2*t
                 currentDist = Math.pow(elapsedTime, 2);
                 setCurrentSpeed(2 * elapsedTime);
+            }
+
+            // Cut the line if distance exceeds visual boundaries
+            if (currentDist >= maxDist) {
+                // Prevent continuing the plot once limit is hit
+                setIsPlaying(false);
+                return;
             }
 
             // Move the car visually
@@ -133,32 +136,73 @@ export default function UniformMotionActivity() {
                 {/* Physical Track & Speedometer Container */}
                 <div className="w-full flex flex-col md:flex-row gap-8 bg-slate-50 p-8 rounded-3xl border-[4px] border-slate-200">
 
-                    {/* Live Speedometer */}
-                    <div className="flex-shrink-0 w-full md:w-64 bg-slate-800 rounded-3xl p-6 flex flex-col items-center justify-center border-4 border-slate-700 shadow-inner relative overflow-hidden">
+                    {/* Live Speedometer & RPM Meters */}
+                    <div className="flex-shrink-0 w-full md:w-80 bg-slate-800 rounded-3xl p-6 flex flex-col items-center justify-center border-4 border-slate-700 shadow-inner relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-slate-700 to-slate-900 opacity-50"></div>
-                        <h5 className="text-slate-400 font-bold tracking-widest uppercase mb-2 relative z-10 text-sm">Speedometer</h5>
+                        
+                        <div className="flex flex-row gap-4 relative z-10 w-full justify-center">
+                            {/* RPM Meter */}
+                            <div className="flex flex-col items-center">
+                                <h5 className="text-slate-400 font-bold tracking-widest uppercase mb-2 text-[10px]">RPM</h5>
+                                <div className="w-24 h-24 rounded-full border-[6px] border-slate-600 flex items-center justify-center relative bg-slate-800 shadow-[inset_0_0_15px_rgba(0,0,0,0.8)]">
+                                    <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="40" fill="none" stroke="#475569" strokeWidth="6" />
+                                        <circle
+                                            cx="50" cy="50" r="40" fill="none"
+                                            stroke={isUniform ? "#3b82f6" : "#f43f5e"}
+                                            strokeWidth="6" strokeDasharray="251.2"
+                                            strokeDashoffset={251.2 - (Math.min((isUniform && currentSpeed > 0 ? 3000 : currentSpeed * 200) / 6000, 1) * 251.2)}
+                                            className="transition-all duration-100 ease-linear"
+                                        />
+                                        {/* Needle */}
+                                        <line 
+                                            x1="50" y1="50" x2="50" y2="20" 
+                                            stroke="white" strokeWidth="2" strokeLinecap="round"
+                                            style={{ 
+                                                transformOrigin: '50px 50px',
+                                                transform: `rotate(${(Math.min((isUniform && currentSpeed > 0 ? 3000 : currentSpeed * 200) / 6000, 1) * 240) - 120}deg)`
+                                            }}
+                                            className="transition-transform duration-200"
+                                        />
+                                    </svg>
+                                    <div className="flex flex-col items-center justify-center">
+                                        <span className={`text-xl font-black ${isUniform ? 'text-blue-400' : 'text-rose-400'} font-mono`}>
+                                            {Math.round(isUniform && currentSpeed > 0 ? 3000 : (currentSpeed * 200))}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div className="w-32 h-32 rounded-full border-8 border-slate-600 flex items-center justify-center relative z-10 bg-slate-800 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
-                            {/* Speed indicator fill */}
-                            <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
-                                <circle cx="50" cy="50" r="40" fill="none" stroke="#334155" strokeWidth="8" />
-                                <circle
-                                    cx="50"
-                                    cy="50"
-                                    r="40"
-                                    fill="none"
-                                    stroke={isUniform ? "#06b6d4" : "#f43f5e"} // Cyan or Rose
-                                    strokeWidth="8"
-                                    strokeDasharray="251.2"
-                                    strokeDashoffset={251.2 - (Math.min(currentSpeed / 20, 1) * 251.2)} // Max speed ~20 for circle fill
-                                    className="transition-all duration-100 ease-linear"
-                                />
-                            </svg>
-                            <div className="flex flex-col items-center justify-center">
-                                <span className={`text-3xl font-black ${isUniform ? 'text-cyan-400' : 'text-rose-400'} font-mono`}>
-                                    {Math.round(currentSpeed)}
-                                </span>
-                                <span className="text-slate-500 font-bold text-xs">m/s</span>
+                            {/* Speedometer */}
+                            <div className="flex flex-col items-center">
+                                <h5 className="text-slate-400 font-bold tracking-widest uppercase mb-2 text-[10px]">Speedometer</h5>
+                                <div className="w-24 h-24 rounded-full border-[6px] border-slate-600 flex items-center justify-center relative bg-slate-800 shadow-[inset_0_0_15px_rgba(0,0,0,0.8)]">
+                                    <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="40" fill="none" stroke="#334155" strokeWidth="6" />
+                                        <circle
+                                            cx="50" cy="50" r="40" fill="none" stroke={isUniform ? "#06b6d4" : "#f43f5e"} strokeWidth="6" strokeDasharray="251.2"
+                                            strokeDashoffset={251.2 - (Math.min(currentSpeed / 20, 1) * 251.2)}
+                                            className="transition-all duration-100 ease-linear"
+                                        />
+                                        {/* Needle */}
+                                        <line 
+                                            x1="50" y1="50" x2="50" y2="15" 
+                                            stroke={isUniform ? "#06b6d4" : "#f43f5e"} strokeWidth="3" strokeLinecap="round"
+                                            style={{ 
+                                                transformOrigin: '50px 50px',
+                                                transform: `rotate(${(Math.min(currentSpeed / 20, 1) * 240) - 120}deg)`
+                                            }}
+                                            className="transition-transform duration-200 shadow-xl"
+                                        />
+                                        <circle cx="50" cy="50" r="4" fill="white" />
+                                    </svg>
+                                    <div className="flex flex-col items-center justify-center">
+                                        <span className={`text-xl font-black ${isUniform ? 'text-cyan-400' : 'text-rose-400'} font-mono`}>
+                                            {Math.round(currentSpeed)}
+                                        </span>
+                                        <span className="text-slate-500 font-bold text-[8px]">m/s</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

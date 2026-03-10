@@ -98,6 +98,7 @@ export default function Equations3DActivity() {
     const [u, setU] = useState<number>(0);
     const [a, setA] = useState<number>(2);
     const [t, setT] = useState<number>(5);
+    const [customT, setCustomT] = useState<string>('');
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -181,7 +182,24 @@ export default function Equations3DActivity() {
                     </div>
                     <div>
                         <label className="block text-sm font-bold text-slate-400 mb-1">Time Goal (t) sec</label>
-                        <input type="range" min="1" max="20" step="1" value={t} onChange={(e) => { setT(Number(e.target.value)); handleReset(); }} disabled={isPlaying} className="w-full accent-sky-500" />
+                        <div className="flex gap-2">
+                            <input type="range" min="1" max="20" step="1" value={t} onChange={(e) => { setT(Number(e.target.value)); setCustomT(''); handleReset(); }} disabled={isPlaying} className="w-full accent-sky-500" />
+                            <input 
+                                type="number" 
+                                placeholder="sec"
+                                value={customT}
+                                onChange={(e) => {
+                                    setCustomT(e.target.value);
+                                    const num = Number(e.target.value);
+                                    if (num > 0) {
+                                        setT(num);
+                                        handleReset();
+                                    }
+                                }}
+                                disabled={isPlaying}
+                                className="w-16 h-8 bg-slate-900 border border-slate-600 rounded text-center text-sm font-bold text-white outline-sky-500 hide-arrows"
+                            />
+                        </div>
                         <div className="text-right font-mono text-xl">{t}</div>
                     </div>
                 </div>
@@ -225,7 +243,8 @@ export default function Equations3DActivity() {
                 </div>
 
                 <Canvas shadows>
-                    <PerspectiveCamera makeDefault position={[0, 4, -10]} fov={50} />
+                    {/* First-person camera: inside the car roof */}
+                    <PerspectiveCamera makeDefault position={[0, 1.2, -0.5]} fov={75} />
                     <color attach="background" args={['#0f172a']} />
                     <fog attach="fog" args={['#0f172a', 10, 50]} />
 

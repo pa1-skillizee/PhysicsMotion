@@ -85,8 +85,15 @@ export default function OPhysicsK3Simulator() {
             const t = (i / pts) * maxTime;
             const yVal = calcFunction(t);
             const svgX = (t / maxTime) * w;
-            const clampedY = Math.max(minY, Math.min(maxY, yVal));
-            const svgY = h - ((clampedY - minY) / (maxY - minY)) * h;
+            
+            if (yVal > maxY || yVal < minY) {
+                const clampedY = Math.max(minY, Math.min(maxY, yVal));
+                const svgY = h - ((clampedY - minY) / (maxY - minY)) * h;
+                path += `L ${svgX} ${svgY} `;
+                break;
+            }
+
+            const svgY = h - ((yVal - minY) / (maxY - minY)) * h;
 
             // Draw steps for acceleration instead of slopes
             if (calcFunction === accA && i > 0) {

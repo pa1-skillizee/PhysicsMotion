@@ -50,12 +50,21 @@ export default function OPhysicsK1Simulator() {
         for (let i = 0; i <= pts; i++) {
             const t = (i / pts) * maxTime;
             const yVal = calcFunction(t);
+            
             // Map t [0, 10] to x [0, 300]
             const svgX = (t / maxTime) * w;
-            // Map y [minY, maxY] to svgY [200, 0] (inverted)
-            // Clamp y for visual safety
-            const clampedY = Math.max(minY, Math.min(maxY, yVal));
-            const svgY = h - ((clampedY - minY) / (maxY - minY)) * h;
+            
+            // Check boundaries - if we exceed, stop drawing the path to avoid horizontal lines
+            if (yVal > maxY || yVal < minY) {
+                // To make a clean cut at the boundary, we could find the exact t, 
+                // but for simplicity, breaking here or drawing one last point at clamped pos is better.
+                const clampedY = Math.max(minY, Math.min(maxY, yVal));
+                const svgY = h - ((clampedY - minY) / (maxY - minY)) * h;
+                path += `L ${svgX} ${svgY} `;
+                break; 
+            }
+
+            const svgY = h - ((yVal - minY) / (maxY - minY)) * h;
 
             if (i === 0) path += `M ${svgX} ${svgY} `;
             else path += `L ${svgX} ${svgY} `;
@@ -105,15 +114,30 @@ export default function OPhysicsK1Simulator() {
             </div>
 
             {/* Visualizer Track */}
-            <div className="w-full h-32 bg-slate-800 rounded-3xl border border-slate-700 mb-10 relative overflow-hidden flex items-center shadow-inner">
+            <div className="w-full h-40 bg-slate-800 rounded-3xl border border-slate-700 mb-10 relative overflow-hidden flex items-center shadow-inner pt-4">
                 {/* Center Line Marker */}
                 <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-slate-700/50"></div>
-                <div className="absolute left-1/2 bottom-2 text-xs font-bold text-slate-500 -translate-x-1/2">x = 0</div>
+                <div className="absolute left-1/2 bottom-2 text-xs font-bold text-slate-500 -translate-x-1/2 bg-slate-800 px-2 rounded-full">x = 0</div>
+                
+                {/* Tick Marks for Track -50 to 50 mapping */}
+                <div className="absolute bottom-2 w-full flex justify-between px-4 opacity-50 text-slate-400 font-mono text-xs font-bold pointer-events-none z-0">
+                    <span>-50</span>
+                    <span>-40</span>
+                    <span>-30</span>
+                    <span>-20</span>
+                    <span>-10</span>
+                    <span className="text-white opacity-0">0</span>
+                    <span>10</span>
+                    <span>20</span>
+                    <span>30</span>
+                    <span>40</span>
+                    <span>50</span>
+                </div>
 
                 {/* The Car */}
                 <div
-                    className="absolute top-1/2 -mt-4 text-4xl transform -translate-x-1/2 drop-shadow-lg transition-transform"
-                    style={{ left: `${50 + (currentX / 100) * 50}%` }} // Maps x [-100, 100] to left [0%, 100%]
+                    className={`absolute top-1/2 -mt-6 text-5xl transform -translate-x-1/2 drop-shadow-lg transition-transform ${currentV >= 0 ? 'scale-x-[-1]' : 'scale-x-100'}`}
+                    style={{ left: `${50 + (currentX / 100) * 50}%` }} // Maps x [-50, 50] to left [25%, 75%] approx visually
                 >
                     🏎️
                 </div>
@@ -124,23 +148,32 @@ export default function OPhysicsK1Simulator() {
                 {/* Sliders Panel */}
                 <div className="lg:col-span-1 bg-slate-800/50 p-6 rounded-3xl border border-slate-700 flex flex-col gap-8">
                     <div>
-                        <div className="flex justify-between text-sm font-bold mb-2">
-                            <span className="text-blue-400">Position (x₀)</span>
-                            <span className="text-white">{x0} m</span>
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-blue-400 text-sm font-bold">Position (x₀)</span>
+                            <div className="flex items-center gap-2">
+                                <input type="number" className="w-16 px-1 py-1 bg-slate-900 border border-slate-600 rounded text-center text-white text-sm" value={x0} onChange={(e) => { setX0(Number(e.target.value)); setTime(0); setIsPlaying(false); }} />
+                                <span className="text-white text-sm font-bold">m</span>
+                            </div>
                         </div>
                         <input type="range" min="-50" max="50" value={x0} onChange={(e) => { setX0(Number(e.target.value)); setTime(0); setIsPlaying(false); }} className="w-full accent-blue-500" />
                     </div>
                     <div>
-                        <div className="flex justify-between text-sm font-bold mb-2">
-                            <span className="text-emerald-400">Velocity (v₀)</span>
-                            <span className="text-white">{v0} m/s</span>
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-emerald-400 text-sm font-bold">Velocity (v₀)</span>
+                            <div className="flex items-center gap-2">
+                                <input type="number" className="w-16 px-1 py-1 bg-slate-900 border border-slate-600 rounded text-center text-white text-sm" value={v0} onChange={(e) => { setV0(Number(e.target.value)); setTime(0); setIsPlaying(false); }} />
+                                <span className="text-white text-sm font-bold">m/s</span>
+                            </div>
                         </div>
                         <input type="range" min="-20" max="20" value={v0} onChange={(e) => { setV0(Number(e.target.value)); setTime(0); setIsPlaying(false); }} className="w-full accent-emerald-500" />
                     </div>
                     <div>
-                        <div className="flex justify-between text-sm font-bold mb-2">
-                            <span className="text-rose-400">Acceleration (a)</span>
-                            <span className="text-white">{accel} m/s²</span>
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-rose-400 text-sm font-bold">Acceleration (a)</span>
+                            <div className="flex items-center gap-2">
+                                <input type="number" className="w-16 px-1 py-1 bg-slate-900 border border-slate-600 rounded text-center text-white text-sm" value={accel} onChange={(e) => { setAccel(Number(e.target.value)); setTime(0); setIsPlaying(false); }} />
+                                <span className="text-white text-sm font-bold">m/s²</span>
+                            </div>
                         </div>
                         <input type="range" min="-10" max="10" value={accel} onChange={(e) => { setAccel(Number(e.target.value)); setTime(0); setIsPlaying(false); }} className="w-full accent-rose-500" />
                     </div>

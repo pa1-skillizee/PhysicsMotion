@@ -18,21 +18,36 @@ export default function GraphDataPlotterActivity() {
     const [saniaPoints, setSaniaPoints] = useState<PlotPoint[]>([{ x: 0, y: 0 }]);
     const [activePerson, setActivePerson] = useState<'feroz' | 'sania'>('feroz');
     const [isComplete, setIsComplete] = useState(false);
+    const [feedback, setFeedback] = useState<string | null>(null);
 
     const handleGridClick = (x: number, y: number) => {
         if (isComplete) return;
 
         if (activePerson === 'feroz') {
             const newPoints = [...ferozPoints, { x, y }].sort((a, b) => a.x - b.x);
-            // Quick dedupe logic for simplicity
             const unique = newPoints.filter((v, i, a) => a.findIndex(t => (t.x === v.x)) === i);
             setFerozPoints(unique);
-            if (unique.length >= ferozCorrectPath.length && saniaPoints.length >= saniaCorrectPath.length) setIsComplete(true);
         } else {
             const newPoints = [...saniaPoints, { x, y }].sort((a, b) => a.x - b.x);
             const unique = newPoints.filter((v, i, a) => a.findIndex(t => (t.x === v.x)) === i);
             setSaniaPoints(unique);
-            if (ferozPoints.length >= ferozCorrectPath.length && unique.length >= saniaCorrectPath.length) setIsComplete(true);
+        }
+    };
+
+    const validateGraph = () => {
+        // Quick validation Check
+        const ferozCorrect = ferozPoints.length === ferozCorrectPath.length && ferozPoints.every((p, i) => Math.abs(p.y - ferozCorrectPath[i].y) < 0.1 && p.x === ferozCorrectPath[i].x);
+        const saniaCorrect = saniaPoints.length === saniaCorrectPath.length && saniaPoints.every((p, i) => Math.abs(p.y - saniaCorrectPath[i].y) < 0.1 && p.x === saniaCorrectPath[i].x);
+
+        if (ferozCorrect && saniaCorrect) {
+            setIsComplete(true);
+            setFeedback(null);
+        } else if (!ferozCorrect && saniaCorrect) {
+            setFeedback("Sania's plot is PERFECT! But double-check Feroz's table values. Something is amiss.");
+        } else if (ferozCorrect && !saniaCorrect) {
+            setFeedback("Feroz's plot is Spot On! 🚀 However, Sania's points need a review.");
+        } else {
+            setFeedback("Hold your horses! Both plots have errors. Double check the table carefully!");
         }
     };
 
@@ -96,15 +111,33 @@ export default function GraphDataPlotterActivity() {
                                 onClick={() => setActivePerson('feroz')}
                                 className={`p-3 rounded-xl border-2 font-bold flex items-center justify-between transition-all ${activePerson === 'feroz' ? 'bg-blue-50 border-blue-400 text-blue-700 shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'}`}
                             >
-                                <span className="flex items-center gap-2"><Bike className="w-5 h-5" /> Plotting Feroz</span>
+                                <span className="flex items-center gap-2"><Bike className="w-5 h-5" /> Plotting Feroz ({ferozPoints.length}/5)</span>
                                 {ferozPoints.length >= 5 ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <Target className="w-5 h-5" />}
                             </button>
                             <button
                                 onClick={() => setActivePerson('sania')}
                                 className={`p-3 rounded-xl border-2 font-bold flex items-center justify-between transition-all ${activePerson === 'sania' ? 'bg-pink-50 border-pink-400 text-pink-700 shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'}`}
                             >
-                                <span className="flex items-center gap-2"><Bike className="w-5 h-5" /> Plotting Sania</span>
+                                <span className="flex items-center gap-2"><Bike className="w-5 h-5" /> Plotting Sania ({saniaPoints.length}/6)</span>
                                 {saniaPoints.length >= 6 ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <Target className="w-5 h-5" />}
+                            </button>
+                            
+                            {/* Submit Button */}
+                            <button 
+                                onClick={validateGraph}
+                                className="mt-4 bg-emerald-500 hover:bg-emerald-600 text-white font-black py-4 rounded-xl shadow-lg transition-colors uppercase tracking-widest text-sm"
+                            >
+                                Submit Graph
+                            </button>
+                            
+                            {feedback && (
+                                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="bg-rose-50 text-rose-600 p-4 rounded-xl border border-rose-200 text-sm font-bold mt-2">
+                                    {feedback}
+                                </motion.div>
+                            )}
+                            
+                            <button onClick={() => { setFerozPoints([{ x: 0, y: 0 }]); setSaniaPoints([{ x: 0, y: 0 }]); setFeedback(null); }} className="text-slate-400 hover:text-slate-600 font-bold text-xs uppercase tracking-widest mt-2 flex items-center justify-center gap-1">
+                                <RefreshCcw className="w-3 h-3" /> Clear Points
                             </button>
                         </>
                     ) : (
