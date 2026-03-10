@@ -51,7 +51,7 @@ export default function LightningDistanceActivity() {
         
         setTimeout(() => {
             if (phaseRef.current === 'FLASHED') {
-                 triggerThunder(true);
+                 triggerThunder();
             }
         }, randomSecondsDelay * 1000);
 
@@ -67,7 +67,7 @@ export default function LightningDistanceActivity() {
     const phaseRef = useRef(phase);
     useEffect(() => { phaseRef.current = phase; }, [phase]);
 
-    const triggerThunder = (autoTrigger: boolean = false) => {
+    const triggerThunder = () => {
         if (timerRef.current) clearInterval(timerRef.current);
         setPhase('THUNDERED');
         playThunderSound();
@@ -164,7 +164,7 @@ export default function LightningDistanceActivity() {
 
                             {phase === 'FLASHED' && (
                                 <button
-                                    onClick={() => triggerThunder(false)}
+                                    onClick={() => triggerThunder()}
                                     className="px-8 py-4 bg-blue-500 hover:bg-blue-400 text-white font-black text-xl rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all hover:scale-105 flex items-center gap-2 animate-pulse justify-center"
                                 >
                                     🔊 2. I Hear Thunder!

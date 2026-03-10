@@ -19,7 +19,7 @@ export default function DisplacementVectorActivity() {
     // Progress % = (Distance / 40) * 100
 
     useEffect(() => {
-        let interval: NodeJS.Timeout;
+        let interval: ReturnType<typeof setInterval>;
         if (isWalking && timeInput > 0) {
             let currentTime = 0;
             interval = setInterval(() => {

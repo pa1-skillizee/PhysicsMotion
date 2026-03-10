@@ -5,7 +5,7 @@ import { Play, RotateCcw } from 'lucide-react';
 export default function GalileoTowerActivity() {
     const [isDropping, setIsDropping] = useState(false);
     const [dropTime, setDropTime] = useState(0);
-    const timerRef = useRef<number | NodeJS.Timeout | null>(null);
+    const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     // Initial heights in percentage
     const startY = 10;
@@ -22,7 +22,7 @@ export default function GalileoTowerActivity() {
                 setDropTime((prevTime) => {
                     const newTime = prevTime + intervalMs / 1000;
                     if (newTime >= totalDurationSeconds) {
-                        clearInterval(timerRef.current as NodeJS.Timeout);
+                        if (timerRef.current) clearInterval(timerRef.current);
                         setIsDropping(false);
                         return totalDurationSeconds;
                     }
@@ -30,11 +30,11 @@ export default function GalileoTowerActivity() {
                 });
             }, intervalMs);
         } else if (timerRef.current) {
-            clearInterval(timerRef.current as NodeJS.Timeout);
+            clearInterval(timerRef.current);
         }
 
         return () => {
-            if (timerRef.current) clearInterval(timerRef.current as NodeJS.Timeout);
+            if (timerRef.current) clearInterval(timerRef.current);
         };
     }, [isDropping, intervalMs]);
 
